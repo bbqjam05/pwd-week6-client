@@ -9,7 +9,7 @@ const apiClient = axios.create({
 });
 
 // 요청 인터셉터 - 쿠키 자동 포함
-authApi.interceptors.request.use(
+apiClient.interceptors.request.use(
   (config) => {
     // withCredentials: true로 설정되어 있어 쿠키가 자동으로 포함됨
     console.log('API 요청:', config.url);
@@ -21,7 +21,7 @@ authApi.interceptors.request.use(
 );
 
 // 응답 인터셉터 - 세션 만료 처리
-authApi.interceptors.response.use(
+apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
