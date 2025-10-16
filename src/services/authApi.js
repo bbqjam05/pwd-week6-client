@@ -3,7 +3,7 @@ import { environment } from '../config/environment';
 
 // Axios 인스턴스 생성
 const apiClient = axios.create({
-  baseURL: 'https://pwd-week6-server-c99o.onrender.com/api/auth',
+  baseURL: 'https://pwd-week6-server-c99o.onrender.com/api',
   withCredentials: true, // 쿠키 포함 요청
   timeout: 10000,
 });
@@ -37,45 +37,45 @@ apiClient.interceptors.response.use(
 export const authApi = {
   // 회원가입
   register: (name, email, password) => 
-    apiClient.post('/register', { name, email, password }),
+    apiClient.post('/auth/register', { name, email, password }),
 
   // 로그인
   login: (email, password) => 
-    apiClient.post('/login', { email, password }),
+    apiClient.post('/auth/login', { email, password }),
 
   // 로그아웃
   logout: () => 
-    apiClient.post('/logout'),
+    apiClient.post('/auth/logout'),
 
   // 현재 사용자 정보 조회
   getCurrentUser: () => 
-    apiClient.get('/me'),
+    apiClient.get('/auth/me'),
 
   // Google OAuth 로그인 URL 생성
   getGoogleAuthUrl: () => 
-    apiClient.get('/google/url'),
+    apiClient.get('/auth/google/url'),
 
   // Naver OAuth 로그인 URL 생성
   getNaverAuthUrl: () => 
-    apiClient.get('/naver/url'),
+    apiClient.get('/auth/naver/url'),
 
   // OAuth 콜백 처리
   handleOAuthCallback: (provider, code) => 
-    apiClient.post(`/${provider}/callback`, { code }),
+    apiClient.post(`/auth/${provider}/callback`, { code }),
 
   // 관리자 전용 API
   admin: {
     // 모든 사용자 목록 조회
     getUsers: () => 
-      apiClient.get('/admin/users'),
+      apiClient.get('/auth/admin/users'),
     
     // 사용자 권한 변경
     updateUserType: (userId, userType) => 
-      apiClient.put(`/admin/users/${userId}`, { userType }),
+      apiClient.put(`/auth/admin/users/${userId}`, { userType }),
     
     // 사용자 삭제
     deleteUser: (userId) => 
-      apiClient.delete(`/admin/users/${userId}`)
+      apiClient.delete(`/auth/admin/users/${userId}`)
   }
 };
 
