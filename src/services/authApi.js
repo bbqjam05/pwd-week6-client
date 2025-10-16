@@ -3,7 +3,7 @@ import { environment } from '../config/environment';
 
 // Axios 인스턴스 생성
 const apiClient = axios.create({
-  baseURL: `${environment.API_URL}/api/auth`,
+  baseURL: 'https://pwd-week6-server-c99o.onrender.com/api/auth',
   withCredentials: true, // 쿠키 포함 요청
   timeout: 10000,
 });
@@ -27,6 +27,7 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // 세션 만료 시 로그인 페이지로 리다이렉트
       console.warn('401 Unauthorized - 세션 만료 또는 로그인 필요');
+      // window.location.href = '/login'
     }
     return Promise.reject(error);
   }
