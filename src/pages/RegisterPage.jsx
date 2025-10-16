@@ -8,6 +8,7 @@ import { FaEye, FaEyeSlash, FaGoogle, FaUser, FaLock, FaEnvelope } from 'react-i
 import { toast } from 'react-toastify';
 import { ClipLoader } from 'react-spinners';
 
+// ... (다른 styled-component들은 기존과 동일하여 생략) ...
 const RegisterContainer = styled.div`
   max-width: 400px;
   margin: 2rem auto;
@@ -159,6 +160,21 @@ const LoginLink = styled.div`
   }
 `;
 
+
+// ✨ Naver 아이콘을 위한 간단한 스타일 컴포넌트
+const NaverIcon = styled.div`
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+  font-weight: 800;
+  color: white;
+  background-color: #03C75A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+`;
+
 function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -194,12 +210,23 @@ function RegisterPage() {
       toast.error('Google 로그인 설정에 문제가 있습니다.');
     }
   };
+  
+  // ✨ Naver 로그인 핸들러 함수 추가
+  const handleNaverLogin = async () => {
+    try {
+      const response = await authApi.getNaverAuthUrl();
+      window.location.href = response.data.url;
+    } catch (error) {
+      toast.error('Naver 로그인 설정에 문제가 있습니다.');
+    }
+  };
 
   return (
     <RegisterContainer>
       <Title>회원가입</Title>
       
       <Form onSubmit={handleSubmit(onSubmit)}>
+        {/* 이름, 이메일, 비밀번호 입력 필드는 기존과 동일 */}
         <InputGroup>
           <InputIcon>
             <FaUser />
@@ -303,6 +330,13 @@ function RegisterPage() {
           <FaGoogle color="#4285F4" />
           Google로 회원가입
         </SocialButton>
+        
+        {/* ✨ Naver 회원가입 버튼 추가 */}
+        <SocialButton type="button" onClick={handleNaverLogin}>
+          <NaverIcon>N</NaverIcon>
+          Naver로 회원가입
+        </SocialButton>
+
       </SocialLoginContainer>
 
       <LoginLink>
@@ -313,3 +347,4 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
+
